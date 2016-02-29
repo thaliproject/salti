@@ -1,0 +1,7 @@
+{
+  "acls" : [
+    { "name" : "admin" }, 
+    { "name": "user" }, 
+    { "name": "public"}
+  ]
+}
