@@ -1,11 +1,11 @@
 {
   "name": "salti",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple Authentication for Thali IoT",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha",
-    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
+    "test": "node --harmony ./node_modules/mocha/bin/mocha",
+    "test-travis": "node --harmony ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
   "repository": {
     "type": "git",
