@@ -29,23 +29,6 @@ var it = require('express-pouchdb')(pbsetup, opts);
 router.use('/db', it);
 app.use('/', router); 
 
-var route, routes = [];
-
-
-function dumpRoutes (app){
-app._router.stack.forEach(function(middleware){
-    if(middleware.route){ // routes registered directly on the app
-        routes.push(middleware.route);
-    } else if(middleware.name === 'router'){ // router middleware 
-        middleware.handle.stack.forEach(function(handler){
-            route = handler.route;
-            route && routes.push(route);
-        });
-    }
-});
-
-console.log(JSON.stringify(routes));
-
 }
 app.listen(3000);
 

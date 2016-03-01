@@ -23,7 +23,7 @@ describe('user - all', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = 'user';
+      req.connection.pskIdentity = 'user';
       next();
     })
     
@@ -79,7 +79,7 @@ describe('publicget - public - only get', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = 'public';
+      req.connection.pskIdentity= 'public';
       next();
     })
     

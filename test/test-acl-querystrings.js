@@ -12,7 +12,7 @@ var lib = require(path.join(__dirname, '../lib/index'));
 var acl = require('./acl-get-multipleusers.js');
 
 
-describe('fatfinger - user - mixed and duplicate', function () {
+describe('bunch of query string junk', function () {
 
   var app;
   var router;
@@ -40,17 +40,17 @@ describe('fatfinger - user - mixed and duplicate', function () {
 
   })
 
-    describe('fatfinger verbs', function () {
+    describe('query string junk', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
-        .get('/fatfinger')
+        .get('/fatfinger?foobar=nothing#/simplestuff')
         .set('Accept', 'application/json')
       // .set('Identity', 'user')
         .expect(200, done);
     })
     it('shoudl be OK - 200', function (done) {
       request(app)
-        .put('/fatfinger')
+        .put('/fatfinger?foobar=nothing#/simplestuff')
         .send({ email: 'test@test.com', password: 'password' })
         .set('Accept', 'application/json')
       // .set('Identity', 'user')
@@ -58,7 +58,7 @@ describe('fatfinger - user - mixed and duplicate', function () {
     })
     it('shoudl be OK - 200', function (done) {
       request(app)
-        .post('/fatfinger')
+        .post('/fatfinger?foobar=nothing#/simplestuff')
         .send({ email: 'test@test.com', password: 'password' })
         .set('Accept', 'application/json')
       // .set('Identity', 'user')
@@ -68,7 +68,7 @@ describe('fatfinger - user - mixed and duplicate', function () {
 
 })
 
-describe('fatfinger - public - no public all', function () {
+describe('query string junk', function () {
 
   var app;
   var router;
@@ -96,17 +96,17 @@ describe('fatfinger - public - no public all', function () {
 
   })
 
-    describe('fatfinger - public no verbs', function () {
+    describe('query string junk', function () {
     it('should be 401', function (done) {
       request(app)
-        .get('/fatfinger')
+        .get('/fatfinger?foobar=nothing#/simplestuff')
         .set('Accept', 'application/json')
       // .set('Identity', 'user')
         .expect(401, done);
     })
     it('should be 401', function (done) {
       request(app)
-        .put('/fatfinger')
+        .put('/fatfinger?foobar=nothing#/simplestuff')
         .send({ email: 'test@test.com', password: 'password' })
         .set('Accept', 'application/json')
       // .set('Identity', 'user')
@@ -114,7 +114,7 @@ describe('fatfinger - public - no public all', function () {
     })
     it('should be 401', function (done) {
       request(app)
-        .post('/fatfinger')
+        .post('/fatfinger?foobar=nothing#/simplestuff')
         .send({ email: 'test@test.com', password: 'password' })
         .set('Accept', 'application/json')
       // .set('Identity', 'user')

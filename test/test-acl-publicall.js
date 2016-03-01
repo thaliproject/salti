@@ -22,7 +22,7 @@ describe('acl public get all; user just get', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = 'public';
+      req.connection.pskIdentity = 'public';
       next();
     })
     

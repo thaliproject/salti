@@ -22,7 +22,7 @@ describe('acl get user tests - with bad identity', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = 'public';
+      req.connection.pskIdentity = 'public';
       next();
     })
     
@@ -77,7 +77,7 @@ describe('acl get user tests - with empty identity', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = '';
+      req.connection.pskIdentity = '';
       next();
     })
     
@@ -134,7 +134,7 @@ describe('acl get user tests - with good identity', function () {
     
     //mocker..
     router.all('*', function (req, res, next) {
-      req.headers.identity = 'user';
+      req.connection.pskIdentity = 'user';
       next();
     })
     
