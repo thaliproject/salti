@@ -27,7 +27,7 @@ router.all('*', function(req, res, next) {
 var it = require('express-pouchdb')(pbsetup, opts);
 
 router.use('/db', it);
-app.use('/', router);
+app.use('/', router); 
 
 var route, routes = [];
 

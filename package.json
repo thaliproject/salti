@@ -1,13 +1,28 @@
 {
-  "name": "pacl",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "salti",
+  "version": "0.0.1",
+  "description": "Simple Authentication for Thali IoT",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/mocha/bin/mocha",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaliproject/salti.git"
+  },
+  "keywords": [
+    "thali",
+    "thaliproject",
+    "pouchdb",
+    "salti"
+  ],
+  "author": "shawn cicoria",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thaliproject/salti/issues"
+  },
+  "homepage": "https://github.com/thaliproject/salti#readme",
   "dependencies": {
     "debug": "^2.2.0",
     "express": "^4.13.4",
@@ -16,6 +31,7 @@
     "secure-compare": "^3.0.1"
   },
   "devDependencies": {
+    "colors": "^1.1.2",
     "coveralls": "^2.11.8",
     "istanbul": "^0.4.2",
     "jshint": "^2.9.1",
