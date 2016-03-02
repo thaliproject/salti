@@ -33,9 +33,13 @@ describe('checking for items after a base path', function(){
     var handlers = require('./handlers');
 
     router.get('/base', handlers[0]);
+    router.get('/base/myfile.js', handlers[0]);
     router.get('/foo', handlers[0]);
     router.get('/bar/foo', handlers[0]);
+    router.get('/foo/myfile.js', handlers[0]);
+    router.get('/bar/foo/myfile.js', handlers[0]);
     router.get('/fiz/baz', handlers[0]);
+    router.get('/fiz/baz/myfile.js', handlers[0]);
     app.use('/', router);
 
   })
