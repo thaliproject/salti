@@ -1,7 +1,7 @@
 {
   "name": "salti",
   "version": "0.1.1",
-  "description": "Simple Authentication for Thali IoT",
+  "description": "Simple Authentication and Authorization for Thali IoT",
   "main": "lib/index.js",
   "scripts": {
     "test": "node --harmony ./node_modules/mocha/bin/mocha",
