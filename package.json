@@ -1,6 +1,6 @@
 {
   "name": "salti",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple Authentication and Authorization for Thali IoT",
   "main": "lib/index.js",
   "scripts": {
