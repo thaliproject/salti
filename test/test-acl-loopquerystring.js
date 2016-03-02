@@ -1,5 +1,10 @@
 'use strict';
 
+if (! process.env.TEST_LOOP ){
+  console.log('not testing loops... set env:TEST_LOOP to run');
+  return;
+}
+
 var request = require('supertest'),
   express = require('express'),
   path = require('path'),
