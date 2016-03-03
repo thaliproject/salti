@@ -11,7 +11,7 @@ var lib = require(path.join(__dirname, '../lib/index'));
 //path.verb.role
 var acl = require('./acl-get-user.js');
 
-describe('acl get user tests - with bad identity', function () {
+describe('acl-get-user acl get user tests - with bad identity', function () {
 
   var app;
   var router;
@@ -151,7 +151,7 @@ describe('acl get user tests - with good identity', function () {
 
   })
 
-  describe('get put and post', function () {
+  describe('get put and post to a root path /', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
         .get('/')

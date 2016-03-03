@@ -12,7 +12,7 @@ var lib = require(path.join(__dirname, '../lib/index'));
 var acl = require('./acl-get-multipleusers.js');
 
 
-describe('bunch of query string junk', function () {
+describe('acl-querystrings - bunch of query string junk', function () {
 
   var app;
   var router;
@@ -40,7 +40,7 @@ describe('bunch of query string junk', function () {
 
   })
 
-    describe('query string junk', function () {
+    describe('query string junk to /fatfinger?xxxxx#dkdkdkd', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
         .get('/fatfinger?foobar=nothing#/simplestuff')

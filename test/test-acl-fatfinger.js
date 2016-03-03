@@ -40,7 +40,7 @@ describe('fatfinger - user - mixed and duplicate', function () {
 
   })
 
-    describe('fatfinger verbs', function () {
+    describe('fatfinger verbs to /fatfinger', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
         .get('/fatfinger')
