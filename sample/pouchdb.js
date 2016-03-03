@@ -4,33 +4,33 @@ module.exports = [{
   "path": "/_validate",
   "roles": [{
     "role": "public",
-    "verbs": ["get", "put", "post"]
+    "verbs": ["GET", "PUT", "POST"]
     }]
   },
   {
     "path": "/foobarrepl",
     "roles": [{
       "role": "public",
-      "verbs": ["get", "post", "put"]
+      "verbs": ["GET", "POST", "PUT"]
     }]
   },
   {
     "path": "/foobarrepl/_local",
     "roles": [{
       "role": "public",
-      "verbs": ["get", "post", "put"]
+      "verbs": ["GET", "POST", "PUT"]
     }]
   }, {
     "path": "/_session",
     "roles": [{
       "role": "public",
-      "verbs": ["get"]
+      "verbs": ["GET"]
     }]
   }, {
     "path": "/_all_dbs",
     "roles": [{
       "role": "public",
-      "verbs": ["get", "put", "post"]
+      "verbs": ["GET", "PUT", "POST"]
     }]
   }];
 

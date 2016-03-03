@@ -5,21 +5,21 @@ module.exports =  [
     "path": '/',
     "roles": [
       {"role": 'user',
-        "verbs": ['get', 'put', 'post']}
+        "verbs": ['GET', 'PUT', 'POST']}
     ]
   },
   {
     "path": '/foo',
     "roles": [
       {"role": 'user',
-        "verbs": ['get', 'put', 'post']}
+        "verbs": ['GET', 'PUT', 'POST']}
     ]
   },
   {
     "path": '/bar',
     "roles": [
       {"role": 'user',
-        "verbs": ['get']}
+        "verbs": ['GET']}
     ]
   }
 ];

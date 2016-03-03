@@ -34,7 +34,7 @@ var opts = {
 }
 
 var acllib = require('../lib/index');
-var acl = require('../lib/pouchdb');
+var acl = require('./pouchdb');
 //Norml middleware usage..
 router.all('*', acllib(acl));
 

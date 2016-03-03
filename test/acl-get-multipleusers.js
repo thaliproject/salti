@@ -5,9 +5,9 @@ module.exports =  [
     "path": "/publicall",
     "roles": [
       {"role": "public",
-        "verbs": ["get", "post", "put"]},
+        "verbs": ["GET", "POST", "PUT"]},
       {"role": "user",
-        "verbs": ["get"]}
+        "verbs": ["GET"]}
     ]
   },
   {
@@ -16,16 +16,16 @@ module.exports =  [
       {"role": "public",
         "verbs": []},
       {"role": "user",
-        "verbs": ["post", "put", "get", "get", "put", "post"]}
+        "verbs": ["POST", "PUT", "GET", "GET", "PUT", "POST"]}
     ]
   },
   {
     "path": "/publicget",
     "roles": [
       {"role": "public",
-        "verbs": ["get"]},
+        "verbs": ["GET"]},
       {"role": "user",
-        "verbs": ["get", "post", "put"]}
+        "verbs": ["GET", "POST", "PUT"]}
     ]
   }
 ];

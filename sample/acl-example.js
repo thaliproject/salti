@@ -11,27 +11,27 @@ module.exports =  [{
     "path": "/",
     "roles": [{
         "role": "public",
-        "verbs": ["get"]
+        "verbs": ["GET"]
     }, {
         "role": "user",
-        "verbs": ["get"]
+        "verbs": ["GET"]
     }]
 }, {
     "path": "/foo/",
     "roles": [{
         "role": "public",
-        "verbs": ["get", "post"]
+        "verbs": ["GET", "post"]
     }, {
         "role": "user",
-        "verbs": ["get", "put", "post"]
+        "verbs": ["GET", "put", "post"]
     }]
 }, {
     "path": "/bar",
     "roles": [{
         "role": "public",
-        "verbs": ["get"]
+        "verbs": ["GET"]
     }, {
         "role": "user",
-        "verbs": ["get"]
+        "verbs": ["GET"]
     }]
 }];
