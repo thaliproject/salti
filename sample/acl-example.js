@@ -20,10 +20,10 @@ module.exports =  [{
     "path": "/foo/",
     "roles": [{
         "role": "public",
-        "verbs": ["GET", "post"]
+        "verbs": ["GET", "POST"]
     }, {
         "role": "user",
-        "verbs": ["GET", "put", "post"]
+        "verbs": ["GET", "PUR", "POST"]
     }]
 }, {
     "path": "/bar",

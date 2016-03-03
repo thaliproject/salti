@@ -21,8 +21,6 @@ webServer.listen(webAppPort, function () {
 });
 webServer.on('error', onError);
 
-
-
 var pbsetup = PouchDB.defaults({ prefix: './db/' });
 var pouchPort = normalizePort(process.env.PORT2 || '3001');
 
