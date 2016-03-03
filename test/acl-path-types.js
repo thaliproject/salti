@@ -9,7 +9,7 @@ module.exports =  [
     ]
   },
     {
-    "path": '/foo/',
+    "path": '/foo',
     "roles": [
       {"role": 'public',
         "verbs": ['GET', 'PUT', 'POST']}
@@ -23,7 +23,7 @@ module.exports =  [
     ]
   },
     {
-    "path": '/fiz/baz/',
+    "path": '/fiz/baz',
     "roles": [
       {"role": 'public',
         "verbs": ['GET', 'PUT', 'POST']}
