@@ -11,7 +11,7 @@ var lib = require(path.join(__dirname, '../lib/index'));
 //path.verb.role
 var acl = require('./acl-get-multipleusers.js');
 
-describe('acl public get all; user just get', function () {
+describe('acl-publicall - acl public get all; user just get', function () {
 
   var app;
   var router;
@@ -39,7 +39,7 @@ describe('acl public get all; user just get', function () {
 
   })
 
-    describe('publicall verbs', function () {
+    describe('publicall verbs to /publicall', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
         .get('/publicall')

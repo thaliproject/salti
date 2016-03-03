@@ -12,7 +12,7 @@ var lib = require(path.join(__dirname, '../lib/index'));
 var acl = require('./acl-get-multipleusers.js');
 
 
-describe('user - all', function () {
+describe('acl-userall - user - all', function () {
 
   var app;
   var router;
@@ -40,7 +40,7 @@ describe('user - all', function () {
 
   })
 
-    describe('publicget verbs', function () {
+    describe('publicget verbs to /publicget...', function () {
     it('shoudl be OK - 200', function (done) {
       request(app)
         .get('/publicget')

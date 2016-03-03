@@ -4,6 +4,7 @@ node_js:
   - "4.1"
   - "0.12"
   - "0.11"
+  - "0.10"
 os:
   - linux
 script: "npm run-script test-travis"

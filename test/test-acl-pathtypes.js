@@ -11,8 +11,8 @@ var lib = require(path.join(__dirname, '../lib/index'));
 var acl = require('./acl-path-types');
 
 
-describe('checking for items after a base path', function(){
-  
+describe('acl-pathtypes - checking for items after a base path', function () {
+
   var app;
   var router;
 
@@ -43,96 +43,111 @@ describe('checking for items after a base path', function(){
     app.use('/', router);
 
   })
-  
-  describe('if a path ends in a /', function(){
-    it('should allow /base through', function(done){
+
+  describe('if a path ends in a /', function () {
+    it('should allow /base through', function (done) {
       request(app)
         .get('/base')
         .set('Accept', 'application/json')
-        .expect(200, done)  
+        .expect(200, done)
     })
-    
-    it('should allow /base/myfile.js through', function(done){
+
+    it('should NOT /base/myfile.js through', function (done) {
       request(app)
         .get('/base/myfile.js')
         .set('Accept', 'application/json')
-        .expect(200, done)  
+        .expect(401, done)
     })
-    
-    it('should stop /basemyfile.js', function(done){
+
+    it('should stop /basemyfile.js', function (done) {
       request(app)
         .get('/basemyfile.js')
         .set('Accept', 'application/json')
-        .expect(401, done)        
+        .expect(401, done)
     })
   })
 
-  describe('if a path doesnt ends in a / - it should assume it', function(){
-    it('should allow /foo/ through', function(done){
+  describe('if a path doesnt ends in a / - it should assume it', function () {
+    it('should allow /foo/ through', function (done) {
       request(app)
         .get('/foo/')
         .set('Accept', 'application/json')
-        .expect(200, done)        
-    })      
-    it('should allow /foo/myfile.js through', function(done){
+        .expect(200, done)
+    })
+    it('should NOT allow /foo/myfile.js through', function (done) {
       request(app)
         .get('/foo/myfile.js')
         .set('Accept', 'application/json')
-        .expect(200, done)        
+        .expect(401, done)
     })
-    
-    it('should stop /foomyfile.js', function(done){
+
+    it('should stop /foomyfile.js', function (done) {
       request(app)
         .get('/foomyfile.js')
         .set('Accept', 'application/json')
-        .expect(401, done)        
+        .expect(401, done)
     })
   })
 
-  describe('if a path ends in a /', function(){
-    it('should allow /bar/foo through', function(done){
+  describe('if a path ends in a /', function () {
+    it('should allow /bar/foo through', function (done) {
       request(app)
         .get('/bar/foo')
         .set('Accept', 'application/json')
-        .expect(200, done)        
+        .expect(200, done)
     })
-    
-    it('should allow /bar/foo/myfile.js through', function(done){
+
+    it('should NOT allow /bar/foo/myfile.js through', function (done) {
       request(app)
         .get('/bar/foo/myfile.js')
         .set('Accept', 'application/json')
-        .expect(200, done)        
+        .expect(401, done)
     })
-    
-    it('should stop /bar/foomyfile.js', function(done){
+
+    it('should stop /bar/foomyfile.js', function (done) {
       request(app)
         .get('/bar/foomyfile.js')
         .set('Accept', 'application/json')
-        .expect(401, done)        
+        .expect(401, done)
     })
   })
 
-  describe('if a path doesnt ends in a / - it should assume it', function(){
-    it('should allow /fiz/baz/ through', function(done){
+  describe('if a path doesnt ends in a / - it should assume it', function () {
+    it('should allow /fiz/baz/ through', function (done) {
       request(app)
         .get('/fiz/baz/')
         .set('Accept', 'application/json')
-        .expect(200, done)        
+        .expect(200, done)
     })
-    
-    it('should allow /fiz/baz/myfile.js through', function(done){
+
+    it('should NOT allow /fiz/baz/myfile.js through', function (done) {
       request(app)
         .get('/fiz/baz/myfile.js')
         .set('Accept', 'application/json')
-        .expect(200, done)        
+        .expect(401, done)
     })
-    
-    it('should stop /fiz/bazmyfile.js', function(done){
+
+    it('should stop /fiz/bazmyfile.js', function (done) {
       request(app)
         .get('/fiz/bazmyfile.js')
         .set('Accept', 'application/json')
-        .expect(401, done)        
+        .expect(401, done)
     })
+  })
+  describe('few munged paths using / - ', function () {
+    it('should NOT allow /<spaces> through', function (done) {
+      request(app)
+        .get('/    ')
+        .set('Accept', 'application/json')
+        .expect(401, done)
+    })
+    it('should NOT allow /# through', function (done) {
+      request(app)
+        .get('/#')
+        .set('Accept', 'application/json')
+        .expect(401, done)
+    })
+
   })
 
 

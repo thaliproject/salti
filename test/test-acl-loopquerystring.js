@@ -51,7 +51,7 @@ function makeTest(path, status) {
   });
 }
 
-describe('this is the loop for passing tests', function () {
+describe('acl-loopquerystrings - this is the loop for passing tests', function () {
   this.timeout(testTimeout);
   before(function () {
 
