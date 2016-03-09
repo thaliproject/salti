@@ -1,3 +1,20 @@
+'use strict';
+
+var request = require('supertest'),
+  express = require('express'),
+  path = require('path'),
+  colors = require('colors'),
+  assert = require('assert');
+
+var lib = require(path.join(__dirname, '../lib/index'));
+
+function genericHandlers(router) {
+  var handlers = require('./handlers2');
+  router.get('/', handlers.get);
+  router.post('/', handlers.post);
+  router.put('/', handlers.put);
+  return router;
+}
 
 /**
  * we define 2 distinct 'roles' (other than Admin)
@@ -5,14 +22,167 @@
  * 2. Beacon  - using a well-known PSK identity of beacon
  * All other requests are non-authenticated and purely anonymous are rejected.
  */
+describe('should let all through', function() {
+  describe(' - simple check with NO acl - no identity', function() {
+    var app, router;
+    app = express();
+    router = express.Router();
 
-describe('for all roles and users - if the request is just a /', function() {
-  it('should be 401 - unauthorized', function(done) {
+    before(function() {
+      //mocker..
+      router.all('*', function(req, res, next) {
+        //req.connection.pskIdentity = 'public';//not adding any identity for faking.
+        next();
+      })
+      //Norml middleware usage..
+      //router.all('*', lib([{}]));
+      //mock handlers  
+      app.use('/', genericHandlers(router));
+    })
+    it('should be 200', function(done) {
+      request(app)
+        .get('/')
+        .send({ email: 'test@test.com', password: 'password' })
+        .set('Accept', 'application/json')
+        .expect(200, done);
+    })
+  })
+  describe('simple check with empty acl - public identity', function() {
+    var app, router;
+    app = express();
+    router = express.Router();
 
-    done();
+    before(function() {
+      //mocker..
+      router.all('*', function(req, res, next) {
+        req.connection.pskIdentity = 'public';
+        next();
+      })
+      //Norml middleware usage..
+      router.all('*', lib([{}]));
+      //mock handlers  
+      app.use('/', genericHandlers(router));
+    })
+    it('should be 401', function(done) {
+      request(app)
+        .get('/')
+        .send({ email: 'test@test.com', password: 'password' })
+        .set('Accept', 'application/json')
+        .expect(401, done);
+    })
+  })
+  describe('simple check with empty - user', function() {
+    var app, router;
+    app = express();
+    router = express.Router();
+
+    before(function() {
+      //mocker..
+      router.all('*', function(req, res, next) {
+        req.connection.pskIdentity = 'user';
+        next();
+      })
+      //Norml middleware usage..
+      router.all('*', lib([{}]));
+      //mock handlers  
+      app.use('/', genericHandlers(router));
+    })
+    it('should be 401', function(done) {
+      request(app)
+        .get('/')
+        .send({ email: 'test@test.com', password: 'password' })
+        .set('Accept', 'application/json')
+        .expect(401, done);
+    })
   })
 })
 
+//TODO:
+describe('block.1 - for all roles and users - if the request is just a /', function() {
+  var app;
+  var router;
+
+  app = express();
+  router = express.Router();
+
+  before(function() {
+    //mocker..
+    router.all('*', function(req, res, next) {
+      req.connection.pskIdentity = 'public';
+      next();
+    })
+    //Norml middleware usage..
+     
+    var acl = require('./acl-block.1.js');
+
+    router.all('*', lib(acl));
+    //mock handlers  
+    app.use('/', genericHandlers(router));
+  })
+
+  it('should be 401 - unauthorized - no user', function(done) {
+    request(app)
+      .get('/')
+      .send({ email: 'test@test.com', password: 'password' })
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  })
+
+  it('should be 401 - unauthorized - user', function(done) {
+    request(app)
+      .get('/')
+      .send({ email: 'test@test.com', password: 'password' })
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  })
+  it('should be 401 - unauthorized - public', function(done) {
+    request(app)
+      .get('/')
+      .send({ email: 'test@test.com', password: 'password' })
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  })
+})
+
+describe('block.2 - just a dummy sanity check - if the request is just a /', function() {
+  var app;
+  var router;
+
+  app = express();
+  router = express.Router();
+  before(function() {
+    //mocker..
+    router.all('*', function(req, res, next) {
+      //req.connection.pskIdentity = 'public';
+      next();
+    })
+    //Norml middleware usage..
+     
+    var acl = [{
+        "path": "/",
+        "roles": [
+          {"role": "public",
+            "verbs": []},
+          {"role": "user",
+            "verbs": ["POST", "PUT", "GET", "GET", "PUT", "POST"]}
+        ]
+      }];
+        
+    router.all('*', lib(acl));
+    //mock handlers  
+    app.use('/', genericHandlers(router));
+  })
+
+  it('dummy should be 200 - no user', function(done) {
+    request(app)
+      .get('/')
+      .send({ email: 'test@test.com', password: 'password' })
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  })
+
+})
+//TODO:
 describe('when the user is pskIdentity = beacon', function() {
   describe('and he requests any path other than the "beacon" path', function() {
     //todo: what is the beacon path
@@ -35,48 +205,61 @@ describe('when the user is pskIdentity = beacon', function() {
 
 })
 
+//TODO: Bulk of work
 describe('when the users is in the Thali_Pull_Replication role', function() {
   describe('When the Database name is "foobar".', function() {
     describe('for the following paths and verbs', function() {
-      /** https://wiki.apache.org/couchdb/HTTP_Document_API
-       | Path                   | Method                  | PouchDB API |
-     * |------                  |--------                 |-------------|
-     * | /                      | GET                     | NA [3]    |
-  ** a PUT to / is an add/update of a :db.   
-  ** DB spedific paths
-     * | /:db                   | GET *POST               | info |
-     * ** Note missing PUT & POST^ for new records ^
-     * ** a PUT adds a new document or updates existing; DELETE also; POST adds as well.
-     
-    ** | /:db/_all_docs         | GET, HEAD#?, POST [1]   | allDocs |
-    ** | /:db/_changes          | GET, POST [2]           | changes |
-     * | /:db/_bulk_get #?      | POST                    | bulkGet |
-     * | /:db/_revs_diff        | POST                    | revsDiff |
-  ** DB - resources
-     * | /:db/:id               | GET  *PUT               | get |
-     * | /:db/:id/attachment    | GET  *PUT, DELETE       | get & getAttachment |
-     * 
-  * * HEAD is used to retrieve basic infomration; PUT or POST can create a document, with PUT the document ID is part of the path (:id)
-  * * POST to a /:db path creates a new DOC. see /:db above.
-  ** What is this? **
-     * | /:db/_local/thali_:id  | GET, PUT, DELETE        | get, put, remove |
-     * | /:db/_local/:id 
-     * 
-     * :db - Substitute with the name of the DB we are protecting.
-     * :id - Substitute with the ID of a document as requested over the wire.
-     * thali_:id - Is an ID that begins with the prefix thali_ and otherwise
-     * is just an ID.
-       */
+      //passing
+      //  /:db  GET
+      //fail
+      //  /:db PUT, POST, HEAD
+      it('should allow GET /:db', function() {
 
+      })
+      it('should FAIL PUT, POST, HEAD', function() {
 
-      /**
-       * note: http://stackoverflow.com/questions/4038885/how-to-design-a-string-matching-algorithm-where-the-input-is-the-exact-string-an
-       * https://github.com/isaacs/minimatch
-       * https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
-       * https://en.wikipedia.org/wiki/String_searching_algorithm#Single_pattern_algorithms
-       * http://www-igm.univ-mlv.fr/~lecroq/string/index.html
-       * 
-       */
+      })
+
+      //passing
+      //  /:db/_all_docs  GET, HEAD, POST
+      //fail
+      //  /:db/_all_docs  PUT, OPTIONS
+
+      //passing
+      //  /:db/_changes  GET, POST
+      //fail
+      //  /:db/_changes  PUT, HEAD, OPTIONS
+
+      //passing
+      //  /:db/_bulk_get  POST
+      //fail
+      //  /:db/_bulk_get  GET, PUT, HEAD, OPTIONS
+
+      //passing
+      //  /:db/_revs_diff  POST
+      //fail
+      //  /:db/_revs_diff  GET, PUT, HEAD, OPTIONS
+
+      //passing
+      //  /:db/:id   GET
+      //fail
+      //  /:db/:id  POST, PUT, HEAD, OPTIONS
+
+      //passing
+      //  /:db/:id/attachment   GET
+      //fail
+      //  /:db/:id/attachment  POST, PUT, HEAD, OPTIONS
+
+      //passing
+      //  /:db/_local/thali_:id   GET, PUT, DELETE
+      //fail
+      //  /:db/_local/thali_:id  POST, HEAD, OPTIONS
+
+      //passing
+      //  /:db/_local/:id   GET, PUT, DELETE
+      //fail
+      //  /:db/_local/:id  POST, HEAD, OPTIONS
+
 
     })
     describe('and the DB name and parameter is :db == foobar', function() {
