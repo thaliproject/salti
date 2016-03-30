@@ -17,5 +17,15 @@ module.exports = {
     console.log(colors.green('\tin the put handler'));
     res.status(200).json({ name: 'you made it' });
     // next();
+  },
+  head: function(req, res) {
+    console.log(colors.green('\tin the head handler'));
+    res.status(200).json({ name: 'you made it' });
+    // next();
+  },
+  options: function(req, res) {
+    console.log(colors.green('\tin the options handler'));
+    res.status(200).json({ name: 'you made it' });
+    // next();
   }
 }
