@@ -4,18 +4,11 @@
 
 
 module.exports =  [{
-  "role" : "user",
-  "paths": [ {
-    "path" : "/foo",
-    "verbs": ["GET", "POST"] 
-  },{
-    "path": "/zin",
-    "verbs" : ["PUT"]
-  }
-  ]
-}, {
   "role" : "repl",
   "paths" : [{
+    "path": "/{:db}",
+    "verbs" :["GET"]
+  },{
     "path" : "/{:db}/_all_docs",
     "verbs":["GET", "HEAD", "POST"]
   },{
