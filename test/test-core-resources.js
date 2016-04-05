@@ -1,12 +1,8 @@
-'use strict';
 
-/** this will check the following:
-  ** DB spedific paths - note that ':db' token to be substituted with the db name in that context
-    ** | /:db/_all_docs         | GET, HEAD, POST [1]     | allDocs |
-    ** | /:db/_changes          | GET, POST [2]           | changes |
-     * | /:db/_bulk_get         | POST                    | bulkGet |
-     * | /:db/_revs_diff        | POST                    | revsDiff |
-*/
+/**
+     * | /:db/:id  | GET, PUT, DELETE        | get, put, remove |
+ */
+
 
 var request = require('supertest'),
   express = require('express'),
@@ -16,19 +12,17 @@ var request = require('supertest'),
 
 var lib = require(path.join(__dirname, '../lib/index'));
 var dbName = 'foobar';
-var path = '/' + dbName + '/_all_docs';
+var path = dbName + '/1234';
 
 function genericHandlers(router, path) {
   var handlers = require('./handlers2');
-  router.get(path, handlers.get);
-  router.post(path, handlers.post);
-  router.put(path, handlers.put);
-  router.head(path, handlers.head);
-  router.options(path, handlers.options);
+  router.get('/' + dbName + '/1234', handlers.get);
+  //router.put('/' + dbName + '/1234', handlers.put);
+  //router.delete('/' + dbName + '/1234', handlers.delete);
   return router;
 }
 
-describe('test-core-db.js - calling the /db path', function() {
+describe('test-core- resource calling the /db/{id} path', function() {
   describe('using repl identity', function() {
     var app, router; app = express(); router = express.Router();
 
@@ -45,36 +39,48 @@ describe('test-core-db.js - calling the /db path', function() {
       app.use('/', genericHandlers(router, path));
     })
 
-    it('GET should be 200', function(done) {
+    it('GET should be 200 ' + '/' + path, function(done) {
       request(app)
-        .get(path)
+        .get('/' + path)
         .set('Accept', 'application/json')
         .expect(200, done);
     })
     it('PUT should be 401', function(done) {
       request(app)
-        .put(path)
+        .put('/' + path)
         .set('Accept', 'application/json')
         .expect(401, done);
     })
-    it('POST should be 200', function(done) {
+    it('DELETE should be 401', function(done) {
       request(app)
-        .post(path)
+        .delete('/' + path)
         .set('Accept', 'application/json')
-        .expect(200, done);
+        .expect(401, done);
     })
-    it('HEAD should be 200', function(done) {
+    it('POST should be 401', function(done) {
       request(app)
-        .head(path)
+        .post('/' + path)
         .set('Accept', 'application/json')
-        .expect(200, done);
+        .expect(401, done);
     })
-    it('OPTION should be 401', function(done) {
+
+    it('GET should be 401 on /1234/1234', function(done) {
       request(app)
-        .options(path)
+        .get('/' + path + '/1234')
+        .set('Accept', 'application/json')
+        .expect(401, done);
+    })
+    it('PUT should be 401', function(done) {
+      request(app)
+        .put('/' + path + '/1234')
+        .set('Accept', 'application/json')
+        .expect(401, done);
+    })
+    it('DELETE should be 401', function(done) {
+      request(app)
+        .delete('/' + path + '/1234')
         .set('Accept', 'application/json')
         .expect(401, done);
     })
   })
 })
-
