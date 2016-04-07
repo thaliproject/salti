@@ -6,11 +6,11 @@
 
 var request = require('supertest'),
   express = require('express'),
-  path = require('path'),
+  fspath = require('path'),
   colors = require('colors'),
   assert = require('assert');
 
-var lib = require(path.join(__dirname, '../lib/index'));
+var lib = require(fspath.join(__dirname, '../lib/index'));
 var dbName = 'foobar';
 var path = '/' + dbName + '/_bulk_get';
 

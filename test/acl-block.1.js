@@ -5,8 +5,10 @@
 
 module.exports =  [{
   'role' : 'repl',
-  'paths' : [{
-    'path': '/{:db}',
+  'paths' : [
+    {'path':'/',
+    'verbs': ['GET']
+  },{'path': '/{:db}',
     'verbs' :['GET']
   },{
     'path' : '/{:db}/_all_docs',
