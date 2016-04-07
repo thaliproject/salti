@@ -30,7 +30,7 @@ For example (see more about the ACL format below) - public is show here - giving
 ```
 ### PSK Identity
 
-When running JxCore using the PSK support, on the server side, it's necessary to add a property to the `reqquest.connection` object - like so:
+When running JxCore using the PSK support, on the server side, it's necessary to add a property to the `request.connection` object - like so:
 
 ```javascript
 var server = tls.createServer(serverOptions, function (connection) {
