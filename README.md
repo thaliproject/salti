@@ -90,8 +90,9 @@ var acllib = require('salti');
 //this loads the JSON - which is an example - you're JSON can come from anywhere but should match the json schema
 var acl = require('./pouchdb');
 
-//Norml middleware usage - this adds it to the ruter...
-router.all('*', acllib(acl));
+//Normal middleware usage - this adds it to the ruter...
+//We have to submit the name of the db we are protecting, requests for other dbs will be rejected
+router.all('*', acllib('db', acl));
 
 //this is the express-pouchdb app - 
 var pouchApp = require('express-pouchdb')(pbsetup, opts);
