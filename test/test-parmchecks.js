@@ -2,21 +2,10 @@
 
 /** This will do some basic parm checking */
 
-var request = require('supertest'),
-  express = require('express'),
-  path = require('path'),
-  colors = require('colors'),
-  assert = require('assert');
+var assert = require('assert'),
+    fspath = require('path');
 
-var lib = require(path.join(__dirname, '../lib/index'));
-
-function genericHandlers(router) {
-  var handlers = require('./handlers2');
-  router.get('/', handlers.get);
-  router.post('/', handlers.post);
-  router.put('/', handlers.put);
-  return router;
-}
+var lib = require(fspath.join(__dirname, '../lib/index'));
 
 describe('some parm checking', function() {
   it('should throw exception if just 1 parm or arg1 is not a string', function(done) {

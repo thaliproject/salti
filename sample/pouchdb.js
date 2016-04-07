@@ -33,11 +33,3 @@ module.exports = [{
       "verbs": ["GET", "PUT", "POST"]
     }]
   }];
-
-
-///_uuids 
-
-///_all_dbs 
-// /_utils/js/zeroclipboard/Z
-//db_utils
-//db/css/
