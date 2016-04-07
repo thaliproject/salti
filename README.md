@@ -174,7 +174,7 @@ For example, below we have a single `path` that 'public' can issue `GET', and `u
 }
 
 ```
-#### Exmaple Module used in sample.
+#### Example Module used in sample.
 
 ```javascript
 
