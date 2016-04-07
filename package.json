@@ -1,0 +1,39 @@
+{
+  "name": "salti",
+  "version": "0.1.5",
+  "description": "Simple Authentication and Authorization for Thali IoT",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node --harmony ./node_modules/mocha/bin/mocha",
+    "test-travis": "node --harmony ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaliproject/salti.git"
+  },
+  "keywords": [
+    "thali",
+    "thaliproject",
+    "pouchdb",
+    "salti"
+  ],
+  "author": "shawn cicoria",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thaliproject/salti/issues"
+  },
+  "homepage": "https://github.com/thaliproject/salti#readme",
+  "dependencies": {
+    "debug": "^2.2.0"
+  },
+  "devDependencies": {
+    "colors": "^1.1.2",
+    "coveralls": "^2.11.8",
+    "express": "^4.13.4",
+    "istanbul": "^0.4.2",
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5",
+    "mocha-jshint": "^2.3.1",
+    "supertest": "^1.2.0"
+  }
+}
