@@ -47,7 +47,7 @@ describe('test-noaclfile.js - should let all through', function() {
         req.connection.pskIdentity = 'public';
         next();
       })
-      router.all('*', lib('foobar', [{}]));
+      router.all('*', lib('foobar', [{}],  function(){}));
       app.use('/', genericHandlers(router));
     })
     it('should be 401', function(done) {
@@ -70,7 +70,7 @@ describe('test-noaclfile.js - should let all through', function() {
         next();
       })
       //Norml middleware usage..
-      router.all('*', lib('foobar', [{}]));
+      router.all('*', lib('foobar', [{}], function(){}));
       //mock handlers  
       app.use('/', genericHandlers(router));
     })
