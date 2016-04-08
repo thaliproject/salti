@@ -34,7 +34,7 @@ describe('test-core-resources - just the /', function() {
     })
     //Norml middleware usage..0
     var acl = require('./acl-block.1.js');
-    router.all('*', lib('foobar', acl));
+    router.all('*', lib('foobar', acl, function(){}));
     //mock handlers  
     app.use('/', genericHandlers(router, path));
   })
@@ -47,7 +47,7 @@ describe('test-core-resources - just the /', function() {
   })
 })
 
-describe('test-core- resource calling the /db/{id} path', function() {
+describe('test-core-resources calling the /db/{id} path', function() {
   describe('using repl identity', function() {
     var app, router; app = express(); router = express.Router();
 
@@ -59,7 +59,7 @@ describe('test-core- resource calling the /db/{id} path', function() {
       })
       //Norml middleware usage..0
       var acl = require('./acl-block.1.js');
-      router.all('*', lib('foobar', acl));
+      router.all('*', lib('foobar', acl, function(){}));
       //mock handlers  
       app.use('/', genericHandlers(router, path));
     })

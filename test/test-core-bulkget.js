@@ -32,7 +32,7 @@ describe('test-core-bulk-get - calling the /db/id path', function() {
       })
       //Norml middleware usage..0
       var acl = require('./acl-block.1.js');
-      router.all('*', lib('foobar', acl));
+      router.all('*', lib('foobar', acl, function(){}));
       //mock handlers  
       app.use('/', genericHandlers(router, path));
     })
