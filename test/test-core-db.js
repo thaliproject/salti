@@ -27,6 +27,7 @@ describe('test-core-db.js - calling the /db path', function() {
   describe('using repl identity', function() {
     var app, router; app = express(); router = express.Router();
     var dbName = 'foobar';
+
     before(function() {
       //mocker..
       router.all('*', function(req, res, next) {
@@ -35,10 +36,11 @@ describe('test-core-db.js - calling the /db path', function() {
       })
       //Norml middleware usage..
       var acl = require('./acl-block.1.js');
-      router.all('*', lib('foobar', acl));
+      router.all('*', lib('foobar', acl,  function(){}));
       //mock handlers  
       app.use('/', genericHandlers(router, dbName));
     })
+
     it('GET should be 200', function(done) {
       request(app)
         .get('/' + dbName)
@@ -86,7 +88,7 @@ describe('test-core-db.js - calling the /WRONG db path', function() {
       })
       //Norml middleware usage..
       var acl = require('./acl-block.1.js');
-      router.all('*', lib('foobar', acl));
+      router.all('*', lib('foobar', acl, function(){}));
       //mock handlers  
       app.use('/', genericHandlers(router, dbName));
     })

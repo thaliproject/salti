@@ -17,14 +17,28 @@ describe('some parm checking', function() {
   })
   it('should throw exception when 2nd parm is not an array', function(done) {
     assert.throws(function() {
-      var tv = lib('foobar', 'notarray');
+      var tv = lib('foobar', 'notarray', function(){});
     });
     done();
 
   })
   it('should NOT throw exception as parm 1 is string parm 2 is array', function(done) {
-    var tv = lib('foobar', ['foo', 'bar']);
+    var tv = lib('foobar', ['foo', 'bar'], function(){});
     done();
 
   })
+  
+  it('should not throw exception as parm 3 is fn', function(done){
+    var tv = lib('foobar', ['foo'], function(){});
+    done();
+  })
+  
+  
+  it('should throw exception as parm 3 is fn', function(done){
+    assert.throws(function(){
+      var tv = lib('foobar', ['foo'], 'foo');  
+    })
+    done();
+  })
+  
 })
