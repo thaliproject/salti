@@ -8,7 +8,7 @@ var pbsetup = PouchDB.defaults({ prefix: './db/' });
 var pouchDbOptions = { ajax : {
      agentOptions:{
        rejectUnauthorized: false
-     }            
+     }
 }};
 
 
@@ -36,8 +36,9 @@ router.post('/', function (req, res, next) {
   }
   
   var remoteDB = new PouchDB('http://localhost:3001/_validate', pouchDbOptions)
-  
+  debugger
   remoteDB.put(theDoc, function (err, response) {
+    console.trace();
     if (err) {
       debug(err);
       

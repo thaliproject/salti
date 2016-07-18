@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var debug = require('debug')('thalisalti:replicate');
 var http = require('http');
+var guid = require('../app/guid');
 
 var pouchDBBase = require('pouchdb');
 var PouchDB = pouchDBBase.defaults({ prefix: './db/' });
