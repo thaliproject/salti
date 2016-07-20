@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
     var pouchDbOptions = { ajax : {
         agentOptions:{
             rejectUnauthorized: false
-        }            
+        }
     }};
     
     var remoteDB = new PouchDB('http://localhost:3001/foobarrepl', pouchDbOptions)

@@ -3,30 +3,32 @@
   "id": "/",
   "type": "array",
   "items": {
-    "id": "1",
+    "id": "items",
     "type": "object",
     "properties": {
-      "path": {
-        "id": "path",
-        "type": "string"
+      "role": {
+        "id": "role",
+        "type": "string",
+        "default": "public"
       },
-      "roles": {
-        "id": "roles",
+      "paths": {
+        "id": "paths",
         "type": "array",
         "items": {
-          "id": "1",
+          "id": "items",
           "type": "object",
           "properties": {
-            "role": {
-              "id": "role",
-              "type": "string"
+            "path": {
+              "id": "path",
+              "type": "string",
+              "default": "/"
             },
             "verbs": {
               "id": "verbs",
               "type": "array",
               "items": {
-                "id": "0",
-                "type": "string"
+                "type": "string",
+                "default": "GET"
               }
             }
           }
