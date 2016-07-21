@@ -2,7 +2,6 @@
 'use strict';
 
 var express = require('express'),
-  https = require('https'),
   http = require('http'),
   fs = require('fs'),
   app = express(),
@@ -10,24 +9,23 @@ var express = require('express'),
   router = express.Router(),
   debug = require('debug')('thalisalti:express');
 
-//this is our sample UI site on port https://localhost:3000
+//this is our sample UI site on port http://localhost:3000
 // the 2 express apps:
 var webApp = require('./app');
 var webAppPort = normalizePort(process.env.PORT || '3000');
 
-var serverCommonOptions = {
-  key: loadPEM('key'),
-  cert: loadPEM('key-cert')
-};
-
 webApp.set('port', webAppPort);
-var webServer = https.createServer(serverCommonOptions, webApp);
+var webServer = http.createServer(webApp);
 webServer.listen(webAppPort, function () {
   debug('webServer is listening on port %s', webAppPort);
 });
 webServer.on('error', onError);
 
-var pbsetup = PouchDB.defaults({ prefix: './db/' });
+var pouchDBName = 'db';
+if (! fs.existsSync('./' + pouchDBName)){
+    fs.mkdirSync('./' + pouchDBName);
+}
+var pbsetup = PouchDB.defaults({ prefix: './' + pouchDBName + '/' });
 var pouchPort = normalizePort(process.env.PORT2 || '3001');
 
 var opts = {
@@ -45,7 +43,7 @@ router.all('*', function(req, res, next) {
   next();
 });
 //Norml middleware usage..
-router.all('*', acllib('db', acl, function (thaliId) {
+router.all('*', acllib(pouchDBName, acl, function (thaliId) {
   debug('thaliId %s', thaliId);
 }));
 
@@ -58,15 +56,6 @@ app.listen(pouchPort);
 
 
 // various utility functions...
-
-// cert/pem loaders
-function filenamePEM(n) {
-  return require('path').join('./', n + '.pem');
-}
-
-function loadPEM(n) {
-  return fs.readFileSync(filenamePEM(n));
-}
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

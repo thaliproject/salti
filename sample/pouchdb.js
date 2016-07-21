@@ -5,45 +5,45 @@ module.exports = [{
   "paths": [
     {
       "path": "/_validate",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/_validate/_bulk_docs",
-      "verbs": ["POST"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/_validate/_all_docs",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
 
     {
       "path": "/foobarrepl",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/foobarrepl/_local/{:id}",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/foobarrepl/_bulk_docs",
-      "verbs": ["POST"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/foobarrepl/_revs_diff",
-      "verbs": ["POST"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/foobarrepl/_all_docs",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
 
     {
       "path": "/foobar",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     {
       "path": "/foobar/_all_docs",
-      "verbs": ["GET"]
+      "verbs": ["GET", "POST", "PUT"]
     },
 
     {

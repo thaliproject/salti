@@ -39,4 +39,3 @@ browse.VC.db
 # pouchdb
 db/*
 sample/db/*
-!sample/db/.gitkeep

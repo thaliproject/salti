@@ -56,6 +56,11 @@ describe('test-trailing-slash.js - should let all through', function() {
         .get('/\/')
         .expect(200, done);
     })
+    it('/%2F should be 401', function(done) {
+      request(app)
+        .get('/%2F')
+        .expect(401, done);
+    })
     it('/foo should be 200', function(done) {
       request(app)
         .get('/foo')
@@ -66,6 +71,11 @@ describe('test-trailing-slash.js - should let all through', function() {
         .get('/foo/')
         .expect(200, done);
     })
+    it('/foo%2F should be 401', function(done) {
+      request(app)
+        .get('/foo%2F')
+        .expect(401, done);
+    })
     it('/bar should be 401', function(done) {
       request(app)
         .get('/bar')
@@ -74,6 +84,11 @@ describe('test-trailing-slash.js - should let all through', function() {
     it('/bar/ should be 401', function(done) {
       request(app)
         .get('/bar/')
+        .expect(401, done);
+    })
+    it('/bar%2F should be 401', function(done) {
+      request(app)
+        .get('/bar%2F')
         .expect(401, done);
     })
   });
@@ -100,6 +115,11 @@ describe('test-trailing-slash.js - should let all through', function() {
         .get('/\/')
         .expect(401, done);
     })
+    it('/%2F should be 401', function(done) {
+      request(app)
+        .get('/%2F')
+        .expect(401, done);
+    })
     it('/foo should be 200', function(done) {
       request(app)
         .get('/foo')
@@ -108,6 +128,11 @@ describe('test-trailing-slash.js - should let all through', function() {
     it('/foo/ should be 401', function(done) {
       request(app)
         .get('/foo/')
+        .expect(401, done);
+    })
+    it('/foo%2F should be 401', function(done) {
+      request(app)
+        .get('/foo%2F')
         .expect(401, done);
     })
     it('/bar should be 401', function(done) {
@@ -119,6 +144,11 @@ describe('test-trailing-slash.js - should let all through', function() {
       request(app)
         .get('/bar/')
         .expect(200, done);
+    })
+    it('/bar%2F should be 401', function(done) {
+      request(app)
+        .get('/bar%2F')
+        .expect(401, done);
     })
   });
 });
