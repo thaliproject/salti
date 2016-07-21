@@ -38,7 +38,7 @@ describe('test-core-db-2.js - calling the /db path', function() {
       //Norml middleware usage..0
       var acl = require('./acl-block.1.js');
       router.all('*', lib('foobar', acl, function(){}));
-      //mock handlers  
+      //mock handlers
       app.use('/', genericHandlers(router, path));
     })
 
@@ -60,7 +60,7 @@ describe('test-core-db-2.js - calling the /db path', function() {
         .set('Accept', 'application/json')
         .expect(200, done);
     })
-    it('HEADz should be 200', function(done) {
+    it('HEAD should be 200', function(done) {
       request(app)
         .head(path)
         .set('Accept', 'application/json')
@@ -74,4 +74,3 @@ describe('test-core-db-2.js - calling the /db path', function() {
     })
   })
 })
-

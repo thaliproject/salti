@@ -21,11 +21,12 @@ webServer.listen(webAppPort, function () {
 });
 webServer.on('error', onError);
 
-var pouchDBName = 'db';
-if (! fs.existsSync('./' + pouchDBName)){
-    fs.mkdirSync('./' + pouchDBName);
+// prefix dir should exist. 
+var prefixDir = './db';
+if (! fs.existsSync(prefixDir)){
+    fs.mkdirSync(prefixDir);
 }
-var pbsetup = PouchDB.defaults({ prefix: './' + pouchDBName + '/' });
+var pbsetup = PouchDB.defaults({ prefix: prefixDir + '/' });
 var pouchPort = normalizePort(process.env.PORT2 || '3001');
 
 var opts = {
@@ -43,7 +44,7 @@ router.all('*', function(req, res, next) {
   next();
 });
 //Norml middleware usage..
-router.all('*', acllib(pouchDBName, acl, function (thaliId) {
+router.all('*', acllib('foobarrepl', acl, function (thaliId) {
   debug('thaliId %s', thaliId);
 }));
 

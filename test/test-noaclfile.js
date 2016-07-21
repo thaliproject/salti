@@ -44,7 +44,7 @@ describe('test-noaclfile.js - should let all through', function() {
 
     before(function() {
       router.all('*', function(req, res, next) {
-        req.connection.pskIdentity = 'public';
+        req.connection.pskRole = 'public';
         next();
       })
       router.all('*', lib('foobar', [{}],  function(){}));
@@ -66,7 +66,7 @@ describe('test-noaclfile.js - should let all through', function() {
     before(function() {
       //mocker..
       router.all('*', function(req, res, next) {
-        req.connection.pskIdentity = 'user';
+        req.connection.pskRole = 'user';
         next();
       })
       //Norml middleware usage..
