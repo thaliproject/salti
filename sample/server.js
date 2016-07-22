@@ -46,6 +46,7 @@ router.all('*', function(req, res, next) {
 //Norml middleware usage..
 router.all('*', acllib('foobarrepl', acl, function (thaliId) {
   debug('thaliId %s', thaliId);
+  return thaliId == 'my_thali_id';
 }));
 
 var pouchApp = require('express-pouchdb')(pbsetup, opts);

@@ -24,6 +24,14 @@ var acl = [{
     {
       'path': '/a/b',
       'verbs': ['GET']
+    },
+    {
+      'path': '/{:db}/_local/{:id}',
+      'verbs': ['GET']
+    },
+    {
+      'path': '/{:db}/_local/thali_{:id}',
+      'verbs': ['GET']
     }
   ]
 }];
@@ -46,7 +54,9 @@ describe('test-invalid-url.js - should let all through', function() {
         req.connection.pskRole = 'user';
         next();
       });
-      router.all('*', lib('foobar', acl, function() {}));
+      router.all('*', lib('foobar', acl, function(thali_id) {
+        return thali_id == 'xx';
+      }));
       app.use('/', genericHandlers(router));
     });
     it('a should be 401', function(done) {
@@ -59,5 +69,44 @@ describe('test-invalid-url.js - should let all through', function() {
         .get('/a/b')
         .expect(401, done);
     });
-  })
-})
+    it('/foobar/_local/thali_xx should be 401', function(done) {
+      request(app)
+        .get('/foobar/_local/thali_xx')
+        .expect(401, done);
+    });
+  });
+  describe('trailing whitespace', function() {
+    var app = express();
+    var router = express.Router();
+    
+    // Supertest doesn't like invalid urls with trailing whitespace. It will just strip it.
+    // Route filter will strip url too.
+    // We can use trailing whitespace + trailing slash;
+    
+    before(function() {
+      router.all('*', function(req, res, next) {
+        req.connection.pskRole = 'user';
+        next();
+      });
+      router.all('*', lib('foobar', acl, function(thali_id) {
+        return thali_id == 'xx';
+      }));
+      app.use('/', genericHandlers(router));
+    });
+    it('/a / should be 401', function(done) {
+      request(app)
+        .get('/a /')
+        .expect(401, done);
+    });
+    it('/a/b / should be 401', function(done) {
+      request(app)
+        .get('/a/b /')
+        .expect(401, done);
+    });
+    it('/foobar/_local/thali_ / should be 401', function(done) {
+      request(app)
+        .get('/foobar/_local/thali_xx /')
+        .expect(401, done);
+    });
+  });
+});
