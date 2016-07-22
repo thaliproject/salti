@@ -18,12 +18,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  if (! req.body.doc) {
+  if (!req.body.doc) {
     debug('invalid request on post - missing doc');
     return res.status(400).send ({ error: 'invalid request - missing doc'});
   }
 
-  if (! req.body.secret) {
+  if (!req.body.secret) {
     debug('no secret provided - continuing...');
   }
 

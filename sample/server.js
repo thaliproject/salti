@@ -21,9 +21,9 @@ webServer.listen(webAppPort, function () {
 });
 webServer.on('error', onError);
 
-// prefix dir should exist. 
+// prefix dir should exist.
 var prefixDir = './db';
-if (! fs.existsSync(prefixDir)){
+if (!fs.existsSync(prefixDir)){
     fs.mkdirSync(prefixDir);
 }
 var pbsetup = PouchDB.defaults({ prefix: prefixDir + '/' });
