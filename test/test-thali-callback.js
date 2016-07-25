@@ -46,7 +46,7 @@ describe('We are validating requests that look like /db/_local/thali_:ID', funct
       //Norml middleware usage..0
       var acl = require('./acl-block.1.js');
       router.all('*', lib('foobar', acl, verifyThaliUser));
-      //mock handlers  
+      //mock handlers
       app.use('/', genericHandlers(router, pathWithId));
     })
 
@@ -57,16 +57,18 @@ describe('We are validating requests that look like /db/_local/thali_:ID', funct
         .set('Accept', 'application/json')
         .expect(200, done);
     })
-    
-    //
     it('GET should fail as it does not match valid ID ' + rootPath + 'zzz', function(done) {
       request(app)
         .get(rootPath + 'zzz')
         .set('Accept', 'application/json')
         .expect(401, done);
     })
-    
-    
+    it('GET should fail as it does not match valid ID ' + rootPath, function(done) {
+      request(app)
+        .get(rootPath)
+        .set('Accept', 'application/json')
+        .expect(401, done);
+    })
     it('PUT should be OK - we are using ' + validId, function(done) {
       request(app)
         .put(pathWithId)

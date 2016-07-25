@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp', []);
 
-myApp.controller('ValidateController', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('ValidateController', ['$scope', '$http', '$guid', function ($scope, $http, $guid) {
   $scope.greeting = 'Welcome to SALTI!';
   $scope.errors = 'no errors';
   $scope.messages = 'no messages';
@@ -26,10 +26,8 @@ myApp.controller('ValidateController', ['$scope', '$http', function ($scope, $ht
     });
   }
 
+  function genDoc(){
+    return JSON.stringify({ _id: $guid(), 'type': 'foobar' })
+  }
 }]);
-
-  
-function genDoc(){
-  return JSON.stringify({ _id: guid(), "type": "foobar" })
-}
 

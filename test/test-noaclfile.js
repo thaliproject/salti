@@ -17,7 +17,7 @@ function genericHandlers(router) {
 }
 
 describe('test-noaclfile.js - should let all through', function() {
-  describe(' - simple check with NO acl - no identity', function() {
+  describe('simple check with NO acl - no identity', function() {
     var app, router;
     app = express();
     router = express.Router();
@@ -26,7 +26,7 @@ describe('test-noaclfile.js - should let all through', function() {
       router.all('*', function(req, res, next) {
         next();
       })
- 
+
       app.use('/', genericHandlers(router));
     })
     it('should be 200', function(done) {
@@ -37,6 +37,21 @@ describe('test-noaclfile.js - should let all through', function() {
         .expect(200, done);
     })
   })
+  describe('simple check with acl - no identity', function() {
+    var app, router;
+    app = express();
+    router = express.Router();
+
+    before(function() {
+      router.all('*', lib('foobar', [{}],  function(){}));
+      app.use('/', genericHandlers(router));
+    })
+    it('should be 401', function(done) {
+      request(app)
+        .get('/')
+        .expect(401, done);
+    })
+  })
   describe('simple check with empty acl - public identity', function() {
     var app, router;
     app = express();
@@ -44,7 +59,7 @@ describe('test-noaclfile.js - should let all through', function() {
 
     before(function() {
       router.all('*', function(req, res, next) {
-        req.connection.pskIdentity = 'public';
+        req.connection.pskRole = 'public';
         next();
       })
       router.all('*', lib('foobar', [{}],  function(){}));
@@ -66,12 +81,12 @@ describe('test-noaclfile.js - should let all through', function() {
     before(function() {
       //mocker..
       router.all('*', function(req, res, next) {
-        req.connection.pskIdentity = 'user';
+        req.connection.pskRole = 'user';
         next();
       })
       //Norml middleware usage..
       router.all('*', lib('foobar', [{}], function(){}));
-      //mock handlers  
+      //mock handlers
       app.use('/', genericHandlers(router));
     })
     it('should be 401', function(done) {
