@@ -54,8 +54,8 @@ describe('test-invalid-url.js - should let all through', function() {
         req.connection.pskRole = 'user';
         next();
       });
-      router.all('*', lib('foobar', acl, function(thali_id) {
-        return thali_id == 'xx';
+      router.all('*', lib('foobar', acl, function(thaliId) {
+        return thaliId == 'xx';
       }));
       app.use('/', genericHandlers(router));
     });
@@ -88,8 +88,8 @@ describe('test-invalid-url.js - should let all through', function() {
         req.connection.pskRole = 'user';
         next();
       });
-      router.all('*', lib('foobar', acl, function(thali_id) {
-        return thali_id == 'xx';
+      router.all('*', lib('foobar', acl, function(thaliId) {
+        return thaliId == 'xx';
       }));
       app.use('/', genericHandlers(router));
     });
