@@ -39,14 +39,10 @@ describe('test-prefix.js - should let all through', function () {
     before(function () {
       router.all('*', function (req, res, next) {
         req.connection.pskRole = 'user';
+        req.connection.prefix  = '/prefix';
         next();
       });
-      router.all(
-        '*',
-        lib('foobar', acl, function (){}, {
-          prefix: '/prefix'
-        })
-      );
+      router.all('*', lib('foobar', acl, function (){}));
       app.use('/', genericHandlers(router));
     });
     it('/ should be 401', function (done) {
@@ -89,12 +85,7 @@ describe('test-prefix.js - should let all through', function () {
         req.connection.pskRole = 'user';
         next();
       });
-      router.all(
-        '*',
-        lib('foobar', acl, function (){}, {
-          prefix: undefined
-        })
-      );
+      router.all('*', lib('foobar', acl, function (){}));
       app.use('/', genericHandlers(router));
     });
     it('/ should be 200', function (done) {
