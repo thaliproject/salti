@@ -2,14 +2,13 @@
 
 var request = require('supertest');
 var express = require('express');
-var path = require('path');
 var colors = require('colors');
 var assert = require('assert');
 
-var lib = require(path.join(__dirname, '../lib/index'));
+var handlers = require('./handlers2');
+var lib = require('../lib/index');
 
 function genericHandlers(router) {
-  var handlers = require('./handlers2');
   router.get('*', handlers.get);
   return router;
 }
@@ -24,86 +23,108 @@ var acl = [{
     {
       'path': '/foo',
       'verbs': ['GET']
+    },
+    {
+      'path': '/{:db}/fit',
+      'verbs': ['GET']
     }
   ]
 }];
 
-describe('test-prefix.js - should let all through', function() {
-  describe('strip prefix - true', function() {
-    var app, router;
-    app = express();
-    router = express.Router();
+describe('test-prefix.js - should let all through', function () {
+  describe('strip prefix - true', function () {
+    var app = express();
+    var router = express.Router();
 
-    before(function() {
-      router.all('*', function(req, res, next) {
+    before(function () {
+      router.all('*', function (req, res, next) {
         req.connection.pskRole = 'user';
         next();
       });
       router.all(
         '*',
-        lib('foobar', acl, function(){}, {
-          prefix: '/fit'
+        lib('foobar', acl, function (){}, {
+          prefix: '/prefix'
         })
       );
       app.use('/', genericHandlers(router));
     });
-    it('/ should be 200', function(done) {
+    it('/ should be 401', function (done) {
       request(app)
         .get('/')
-        .expect(200, done);
+        .expect(401, done);
     });
-    it('/fit/ should be 200', function(done) {
+    it('/prefix/ should be 200', function (done) {
       request(app)
-        .get('/fit/')
+        .get('/prefix/')
         .expect(200, done);
     });
-    it('/foo should be 200', function(done) {
+    it('/foo should be 401', function (done) {
       request(app)
         .get('/foo')
+        .expect(401, done);
+    });
+    it('/prefix/foo should be 200', function (done) {
+      request(app)
+        .get('/prefix/foo')
         .expect(200, done);
     });
-    it('/fit/foo should be 200', function(done) {
+    it('/foobar/fit should be 401', function (done) {
       request(app)
-        .get('/fit/foo')
+        .get('/foobar/fit')
+        .expect(401, done);
+    });
+    it('/prefix/foobar/fit should be 200', function (done) {
+      request(app)
+        .get('/prefix/foobar/fit')
         .expect(200, done);
     });
   });
-  describe('strip trailing slash - false', function() {
-    var app, router;
-    app = express();
-    router = express.Router();
+  describe('strip trailing slash - false', function () {
+    var app = express();
+    var router = express.Router();
 
-    before(function() {
-      router.all('*', function(req, res, next) {
+    before(function () {
+      router.all('*', function (req, res, next) {
         req.connection.pskRole = 'user';
         next();
-      })
+      });
       router.all(
         '*',
-        lib('foobar', acl, function(){}, {
+        lib('foobar', acl, function (){}, {
           prefix: undefined
         })
       );
       app.use('/', genericHandlers(router));
     });
-    it('/ should be 200', function(done) {
+    it('/ should be 200', function (done) {
       request(app)
         .get('/')
         .expect(200, done);
     });
-    it('/fit/ should be 401', function(done) {
+    it('/prefix/ should be 401', function (done) {
       request(app)
-        .get('/fit/')
+        .get('/prefix/')
         .expect(401, done);
     });
-    it('/foo should be 200', function(done) {
+    it('/foo should be 200', function (done) {
       request(app)
         .get('/foo')
         .expect(200, done);
     });
-    it('/fit/foo should be 401', function(done) {
+    it('/prefix/foo should be 401', function (done) {
       request(app)
-        .get('/fit/foo')
+        .get('/prefix/foo')
+        .expect(401, done);
+    });
+    it('/foobar/fit should be 401', function (done) {
+      request(app)
+        .get('/foobar/fit')
+        .expect(200, done);
+    });
+    it('/prefix/foobar/fit should be 200', function (done) {
+      request(app)
+        .get('/prefix/foobar/fit')
         .expect(401, done);
     });
   });

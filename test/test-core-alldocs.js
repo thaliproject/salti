@@ -5,18 +5,19 @@
     ** | /:db/_all_docs         | GET, HEAD, POST [1]     | allDocs |
 */
 
-var request = require('supertest'),
-  express = require('express'),
-  path = require('path'),
-  colors = require('colors'),
-  assert = require('assert');
+var request = require('supertest');
+var express = require('express');
+var colors = require('colors');
+var assert = require('assert');
 
-var lib = require(path.join(__dirname, '../lib/index'));
+var handlers = require('./handlers2');
+var lib = require('../lib/index');
+var acl = require('./acl-block.1.js');
+
 var dbName = 'foobar';
 var path = '/' + dbName + '/_all_docs';
 
 function genericHandlers(router, path) {
-  var handlers = require('./handlers2');
   router.get(path, handlers.get);
   router.post(path, handlers.post);
   router.put(path, handlers.put);
@@ -25,52 +26,52 @@ function genericHandlers(router, path) {
   return router;
 }
 
-describe('test-core-db-2.js - calling the /db path', function() {
-  describe('using repl identity', function() {
-    var app, router; app = express(); router = express.Router();
+describe('test-core-db-2.js - calling the /db path', function () {
+  describe('using repl identity', function () {
+    var app = express();
+    var router = express.Router();
 
-    before(function() {
-      //mocker..
-      router.all('*', function(req, res, next) {
+    before(function () {
+      // mocker..
+      router.all('*', function (req, res, next) {
         req.connection.pskRole = 'repl';
         next();
-      })
-      //Norml middleware usage..0
-      var acl = require('./acl-block.1.js');
-      router.all('*', lib('foobar', acl, function(){}));
-      //mock handlers
+      });
+      // Norml middleware usage..0
+      router.all('*', lib('foobar', acl, function (){}));
+      // mock handlers
       app.use('/', genericHandlers(router, path));
-    })
+    });
 
-    it('GET should be 200', function(done) {
+    it('GET should be 200', function (done) {
       request(app)
         .get(path)
         .set('Accept', 'application/json')
         .expect(200, done);
-    })
-    it('PUT should be 401', function(done) {
+    });
+    it('PUT should be 401', function (done) {
       request(app)
         .put(path)
         .set('Accept', 'application/json')
         .expect(401, done);
-    })
-    it('POST should be 200', function(done) {
+    });
+    it('POST should be 200', function (done) {
       request(app)
         .post(path)
         .set('Accept', 'application/json')
         .expect(200, done);
-    })
-    it('HEAD should be 200', function(done) {
+    });
+    it('HEAD should be 200', function (done) {
       request(app)
         .head(path)
         .set('Accept', 'application/json')
         .expect(200, done);
-    })
-    it('OPTION should be 401', function(done) {
+    });
+    it('OPTION should be 401', function (done) {
       request(app)
         .options(path)
         .set('Accept', 'application/json')
         .expect(401, done);
-    })
-  })
-})
+    });
+  });
+});
