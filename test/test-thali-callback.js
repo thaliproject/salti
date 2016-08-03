@@ -2,12 +2,12 @@
 
 var request = require('supertest'),
   express = require('express'),
-  fspath = require('path'),
+  path = require('path'),
   colors = require('colors'),
   assert = require('assert');
 
 
-var lib = require(fspath.join(__dirname, '../lib/index'));
+var lib = require(path.join(__dirname, '../lib/index'));
 var dbName = 'foobar';
 var pathPrefix = '/' + dbName + '/_local/thali__ID_';
 

@@ -3,9 +3,9 @@
 /** This will do some basic parm checking */
 
 var assert = require('assert'),
-    fspath = require('path');
+    path = require('path');
 
-var lib = require(fspath.join(__dirname, '../lib/index'));
+var lib = require(path.join(__dirname, '../lib/index'));
 
 describe('some parm checking', function() {
   it('should throw exception if just 1 parm or arg1 is not a string', function(done) {

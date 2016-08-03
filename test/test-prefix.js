@@ -1,12 +1,12 @@
 'use strict';
 
-var request = require('supertest'),
-  express = require('express'),
-  fspath = require('path'),
-  colors = require('colors'),
-  assert = require('assert');
+var request = require('supertest');
+var express = require('express');
+var path = require('path');
+var colors = require('colors');
+var assert = require('assert');
 
-var lib = require(fspath.join(__dirname, '../lib/index'));
+var lib = require(path.join(__dirname, '../lib/index'));
 
 function genericHandlers(router) {
   var handlers = require('./handlers2');
