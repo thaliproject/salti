@@ -39,31 +39,32 @@ describe('test-prefix.js - should let all through', function () {
     before(function () {
       router.all('*', function (req, res, next) {
         req.connection.pskRole = 'user';
-        req.connection.prefix  = '/prefix';
         next();
       });
-      router.all('*', lib('foobar', acl, function (){}));
+      router.all('*', lib('foobar', acl, function (){}, {
+        prefix: 'prefix'
+      }));
       app.use('/', genericHandlers(router));
     });
-    it('/ should be 401', function (done) {
+    it('/ should be 200', function (done) {
       request(app)
         .get('/')
-        .expect(401, done);
+        .expect(200, done);
     });
-    it('/prefix/ should be 200', function (done) {
+    it('/prefix/ should be 401', function (done) {
       request(app)
         .get('/prefix/')
-        .expect(200, done);
-    });
-    it('/foo should be 401', function (done) {
-      request(app)
-        .get('/foo')
         .expect(401, done);
     });
-    it('/prefix/foo should be 200', function (done) {
+    it('/foo should be 200', function (done) {
+      request(app)
+        .get('/foo')
+        .expect(200, done);
+    });
+    it('/prefix/foo should be 401', function (done) {
       request(app)
         .get('/prefix/foo')
-        .expect(200, done);
+        .expect(401, done);
     });
     it('/foobar/fit should be 401', function (done) {
       request(app)
@@ -76,6 +77,7 @@ describe('test-prefix.js - should let all through', function () {
         .expect(200, done);
     });
   });
+
   describe('strip trailing slash - false', function () {
     var app = express();
     var router = express.Router();
@@ -108,12 +110,12 @@ describe('test-prefix.js - should let all through', function () {
         .get('/prefix/foo')
         .expect(401, done);
     });
-    it('/foobar/fit should be 401', function (done) {
+    it('/foobar/fit should be 200', function (done) {
       request(app)
         .get('/foobar/fit')
         .expect(200, done);
     });
-    it('/prefix/foobar/fit should be 200', function (done) {
+    it('/prefix/foobar/fit should be 401', function (done) {
       request(app)
         .get('/prefix/foobar/fit')
         .expect(401, done);
