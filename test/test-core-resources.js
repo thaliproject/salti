@@ -89,11 +89,12 @@ describe('test-core-resources calling the /db/{id} path', function () {
         .expect(401, done);
     });
 
-    it('GET should be 401 on /1234/1234', function (done) {
+    // this looks like attachment: {:id}/{:attachmentId}
+    it('GET should be 404 on /1234/1234', function (done) {
       request(app)
         .get('/' + path + '/1234')
         .set('Accept', 'application/json')
-        .expect(401, done);
+        .expect(404, done);
     });
     it('PUT should be 401', function (done) {
       request(app)

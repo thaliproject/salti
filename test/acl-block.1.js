@@ -32,7 +32,7 @@ module.exports = [{
       'verbs': ['GET']
     },
     {
-      'path': '/{:db}/{:id}/attachment',
+      'path': '/{:db}/{:id}/{:attachmentId}',
       'verbs': ['GET']
     },
     {
