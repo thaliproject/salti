@@ -2,7 +2,7 @@
 
 /** this will check the following:
   ** DB spedific paths - note that ':db' token to be substituted with the db name in that context
-    ** | /:db/:id/attachment        | GET,     | |
+    ** | /:db/:id/:attachmentId        | GET,     | |
 */
 
 var request = require('supertest');
@@ -15,7 +15,7 @@ var lib = require('../lib/index');
 var acl = require('./acl-block.1.js');
 
 var dbName = 'foobar';
-var path = '/' + dbName + '/1234/attachment';
+var path = '/' + dbName + '/1234/attachmentId';
 
 function genericHandlers(router, path) {
   router.get(path, handlers.get);
@@ -23,7 +23,7 @@ function genericHandlers(router, path) {
 }
 
 describe(
-  'test-core-attachment.js - calling the /db/id/attachment path', function () {
+  'test-core-attachment.js - calling the /db/id/attachmentId path', function () {
   describe('using repl identity', function () {
     var app = express();
     var router = express.Router();
@@ -76,11 +76,11 @@ describe(
         .expect(401, done);
     });
 
-    it('GET zzz should be 401', function (done) {
+    it('GET zzz should be 404', function (done) {
       request(app)
         .get(path + 'zzz')
         .set('Accept', 'application/json')
-        .expect(401, done);
+        .expect(404, done);
     });
   });
 });
