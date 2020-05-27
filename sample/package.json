@@ -19,7 +19,7 @@
     "express": "~4.13.1",
     "express-pouchdb": "^1.0.2",
     "jquery": "^2.2.1",
-    "morgan": "~1.6.1",
+    "morgan": "~1.10.0",
     "pouchdb": "^5.2.1",
     "serve-favicon": "~2.3.0"
   }
